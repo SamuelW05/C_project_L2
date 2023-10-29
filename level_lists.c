@@ -104,20 +104,20 @@ void display_all_levels(t_d_list list){
     }
 }
 
-void insert_a_cell_with_increasing_order(t_d_list* list, int val, int level, int cell_levels){
-    if (is_empty_level(*list,level) != 1){
+void insert_a_cell_with_increasing_order(t_d_list* list, int val, int cell_levels){
+    if (is_empty_level(*list,0) != 1){
         p_cell new = create_cell(val,cell_levels);
-        p_cell temp = list->head[level];
+        p_cell temp = list->head[0];
         p_cell prev = temp;
-        if(list->head[level]->value >= val){
+        if(list->head[0]->value >= val){
             insert_a_cell(list,val,cell_levels);
         } else {
             while ((temp != NULL) && (val >= temp->value)) {
                 prev = temp;
-                temp = temp->level[level];
+                temp = temp->level[0];
             }
-            prev->level[level] = new;
-            new->level[level] = temp;
+            prev->level[0] = new;
+            new->level[0] = temp;
         }
     } else{
         insert_a_cell(list,val,cell_levels);
