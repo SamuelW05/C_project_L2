@@ -23,18 +23,21 @@ t_d_list create_empty_list(int levels){
 
 void insert_a_cell(t_d_list* list, int val, int cell_levels){
         p_cell new = create_cell(val, cell_levels);
+
         for(int i = 0; i< cell_levels; i++) {
+
             new->level[i] = list->head[i];
+
             list->head[i] = new;
         }
 }
 
 void display_cells_at_levels(t_d_list list, int level){
-    if(list.nb_max_levels< level){
+    if(list.nb_max_levels-1< level){
         printf("We can't display");// Au cas ou si on a des erreurs mais on peut effacer
     } else{
         if(is_empty_level(list, level) != 1) {
-            printf("\n[list head_%d @-]", level);
+            printf("[list head_%d @-]", level);
             p_cell temp = list.head[level];
             p_cell ogcell = list.head[0];
             int index;
@@ -45,7 +48,6 @@ void display_cells_at_levels(t_d_list list, int level){
                     index++;
                 }
                 ogcell = ogcell->level[0];
-
                 if(index != 0) {
                     for (int j = 0; j < index; j++) {
                         printf("----------");
@@ -54,10 +56,8 @@ void display_cells_at_levels(t_d_list list, int level){
                         printf("-");
                     }
                 }
-
                 printf("-->[ %d|@-]", temp->value);
                 temp = temp->level[level];
-
             }
             // Une iteration en plus car ca marche pas dans la boucle temp != NULL
             index = 0;
@@ -74,30 +74,59 @@ void display_cells_at_levels(t_d_list list, int level){
                 }
             }
             printf("-->[ %d|@-]", temp->value);
-            while (ogcell->level[0] != NULL){
+
+            index= 0;
+            
+            while ((ogcell!= NULL)){
                 ogcell = ogcell->level[0];
                 index++;
             }
-            if(index != 0) {
-                for (int j = 0; j < index-1; j++) {
-                    printf("----------");
-                }
-                for (int j = 0; j < index+1; j++) {
-                    printf("-");
-                }
-                printf(">");
-            }
             if(level != 0){
-                printf("NULL");
+                if(index != 0) {
+                    for (int j = 0; j < index-1; j++) {
+                        printf("----------");
+                    }
+                    for (int j = 0; j < index+1; j++) {
+                        printf("-");
+                    }
+                    printf(">");
+                } else{
+                    printf("-->");
+                }
+                printf("NULL\n");
             } else{
-                printf("-->NULL");
+                printf("-->NULL\n");
             }
 
         } else{
-            printf("[list head_%d @-]--> NULL\n", level);
+            p_cell ogcell = list.head[0];
+            printf("[list head_%d @-]", level);
+            int index= 0;
+            //printf("   %d    ", ogcell->value);
+            while ((ogcell!= NULL)){
+                ogcell = ogcell->level[0];
+                index++;
+            }
+            if(level != 0){
+                if(index != 0) {
+                    for (int j = 0; j < index; j++) {
+                        printf("----------");
+                    }
+                    for (int j = 0; j < index+2; j++) {
+                        printf("-");
+                    }
+                    printf(">");
+                } else{
+                    printf("-->");
+                }
+                printf("NULL\n");
+            } else{
+                printf("-->NULL\n");
+            }
         }
     }
 }
+
 void display_all_levels(t_d_list list){
     for(int i = 0; i<list.nb_max_levels; i++){
         display_cells_at_levels(list,i);
@@ -106,20 +135,24 @@ void display_all_levels(t_d_list list){
 
 void insert_a_cell_with_increasing_order(t_d_list* list, int val, int cell_levels){
     if (is_empty_level(*list,0) != 1){
-        p_cell new = create_cell(val,cell_levels);
+
         p_cell temp = list->head[0];
         p_cell prev = temp;
         if(list->head[0]->value >= val){
             insert_a_cell(list,val,cell_levels);
-        } else {
+        }else {
             while ((temp != NULL) && (val >= temp->value)) {
                 prev = temp;
                 temp = temp->level[0];
             }
-            prev->level[0] = new;
-            new->level[0] = temp;
+            p_cell new = create_cell(val,cell_levels);
+            for(int i = 0; i< cell_levels; i++) {
+                new->level[i] = prev->level[i];
+                prev->level[i] = new;
+            }
         }
     } else{
         insert_a_cell(list,val,cell_levels);
     }
 }
+
