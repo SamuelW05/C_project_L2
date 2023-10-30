@@ -15,7 +15,6 @@ void create_list_dico(int levels) {
     int n = levels;
     int k =0;
     int j;
-    int x;
     while(k<n-1){
         j = (int)pow(2,(k+1))-1;
         while (j<nb_val-1) {
