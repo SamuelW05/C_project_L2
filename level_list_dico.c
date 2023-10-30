@@ -12,20 +12,26 @@ void create_list_dico(int levels) {
     for (int i = 0; i < nb_val; i++) {
         val_level[i] = 0;
     }
-   int n = levels;
-    while(n>1){
-        for(int i = 0; i < nb_val; i++){
-            if(i%(int)pow(2,n-1)==1)
-                val_level[i]++;   // ca marche pas faut trouver une autre condition pour remplir le tableau
+    int n = levels;
+    int k =0;
+    int j;
+    int x;
+    while(k<n-1){
+        j = (int)pow(2,(k+1))-1;
+        while (j<nb_val-1) {
+            val_level[j]++;
+            j+= (int)pow(2,(k+1));
         }
-        n--;
-    }
+        k++;
 
+    }
     for(int i = 0; i < nb_val; i++){
         printf("%d", val_level[i]);
     }
+    printf("\n");
+
     //for(int i = 0 ; i < nb_val; i++){
-        //insert_a_cell(&list, i+1, val_level[i]);  ca fonctionne mais il faut le bon tableau d'abord
+    //insert_a_cell(&list, i+1, val_level[i]);  ca fonctionne mais il faut le bon tableau d'abord
     //}
-   // return list;
+    // return list;
 }
