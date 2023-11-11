@@ -36,94 +36,34 @@ void display_cells_at_levels(t_d_list list, int level){
     if(list.nb_max_levels-1< level){
         printf("We can't display");// Au cas ou si on a des erreurs mais on peut effacer
     } else{
-        if(is_empty_level(list, level) != 1) {
             printf("[list head_%d @-]", level);
             p_cell temp = list.head[level];
             p_cell ogcell = list.head[0];
             int index;
-            while (temp->level[level] != NULL) {
-                index = 0;
-                while ((ogcell->level[0] != NULL)&&(ogcell->value!= temp->value)){
+            if(is_empty_level(list, level) != 1) {
+                while (temp != NULL) {
+                    index = 0;
+                    while ((ogcell != NULL) && (ogcell->value != temp->value)) {
+                        ogcell = ogcell->level[0];
+                        index++;
+                    }
+                    for (int j = 0; j < index; j++) {
+                        printf("-----------");
+                    }
+                    printf("-->[ %d|@-]", temp->value);
                     ogcell = ogcell->level[0];
-                    index++;
-                }
-                ogcell = ogcell->level[0];
-                if(index != 0) {
-                    for (int j = 0; j < index; j++) {
-                        printf("----------");
-                    }
-                    for (int j = 0; j < index; j++) {
-                        printf("-");
-                    }
-                }
-                printf("-->[ %d|@-]", temp->value);
-                temp = temp->level[level];
-            }
-            // Une iteration en plus car ca marche pas dans la boucle temp != NULL
-            index = 0;
-            while ((ogcell->level[0] != NULL)&&(ogcell->value!= temp->value)){
-                ogcell = ogcell->level[0];
-                index++;
-            }
-            if(index != 0) {
-                for (int j = 0; j < index; j++) {
-                    printf("----------");
-                }
-                for (int j = 0; j < index; j++) {
-                    printf("-");
+                    temp = temp->level[level];
                 }
             }
-            printf("-->[ %d|@-]", temp->value);
-
             index= 0;
-            
             while ((ogcell!= NULL)){
                 ogcell = ogcell->level[0];
                 index++;
             }
-            if(level != 0){
-                if(index != 0) {
-                    for (int j = 0; j < index-1; j++) {
-                        printf("----------");
-                    }
-                    for (int j = 0; j < index+1; j++) {
-                        printf("-");
-                    }
-                    printf(">");
-                } else{
-                    printf("-->");
-                }
-                printf("NULL\n");
-            } else{
-                printf("-->NULL\n");
+            for (int j = 0; j < index; j++) {
+                printf("-----------");
             }
-
-        } else{
-            p_cell ogcell = list.head[0];
-            printf("[list head_%d @-]", level);
-            int index= 0;
-            //printf("   %d    ", ogcell->value);
-            while ((ogcell!= NULL)){
-                ogcell = ogcell->level[0];
-                index++;
-            }
-            if(level != 0){
-                if(index != 0) {
-                    for (int j = 0; j < index; j++) {
-                        printf("----------");
-                    }
-                    for (int j = 0; j < index+2; j++) {
-                        printf("-");
-                    }
-                    printf(">");
-                } else{
-                    printf("-->");
-                }
-                printf("NULL\n");
-            } else{
-                printf("-->NULL\n");
-            }
-        }
+            printf("-->NULL\n");
     }
 }
 
