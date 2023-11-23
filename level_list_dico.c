@@ -26,7 +26,7 @@ t_d_list create_list_dico(int levels) {
     }
 
     for (int i = nb_val - 1; i >= 0; i--) {
-        insert_a_cell(&list, i + 1, val_level[i] + 1);
+        insert_with_a_cell_increasing_order(&list, i + 1, val_level[i] + 1);
 
 }
     return list;
