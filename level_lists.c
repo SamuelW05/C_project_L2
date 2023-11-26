@@ -2,7 +2,7 @@
 #include "stdlib.h"
 #include "stdio.h"
 
-int is_empty_level(t_d_list list,int level){// function not demanded
+int is_empty_level(t_d_list list,int level){// function not asked
     if(list.head[level] == NULL){
         return 1;
     } else{

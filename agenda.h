@@ -4,7 +4,7 @@
 typedef struct s_contact{
     char* name;
     char* surname;
-} contact;
+} CONTACT;
 
 typedef struct s_date{
     int day;
@@ -22,7 +22,12 @@ typedef struct s_appointment{
     TIME time;
     TIME length;
     char* purpose;
-} appointment;
+} APPOINTMENT;
+
+typedef struct s_calendar{
+    CONTACT contact;
+    APPOINTMENT* appointment;
+} CALENDAR;
 
 void lower_case(char*);
 char* scanString();

@@ -35,3 +35,4 @@ char* scanString() {
     lower_case(input);
     return input;
 }
+

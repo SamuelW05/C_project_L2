@@ -1,12 +1,14 @@
 #ifndef PROJECT1_LEVEL_LISTS_H
 #define PROJECT1_LEVEL_LISTS_H
 #include "level_cells.h"
+
 typedef struct s_d_list
 {
     int nb_max_levels;
     t_d_cell **head;
 } t_d_list;
 
+int is_empty_level(t_d_list, int);
 t_d_list create_empty_list(int);
 void display_cells_at_levels(t_d_list list, int level);
 void display_all_levels(t_d_list list);

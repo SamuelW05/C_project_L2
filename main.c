@@ -1,8 +1,12 @@
 #include <stdio.h>
 #include "level_lists.h"
 #include "agenda.h"
-
+#include "contact.h"
 int main() {
+    printf("%d\n", count_lines("D:\\OneDrive\\CLION\\C_project_L2-main\\names_example.txt"));
+    t_d_list list2 = create_contact_list();
+    display_all_levels(list2);
+    return 0;
     t_d_list list = create_empty_list(5);
 
     //level 0
@@ -19,5 +23,5 @@ int main() {
     display_all_levels(list);
     printf("%s", scanString());
 
-    return 0;
+
 }
