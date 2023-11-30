@@ -1,11 +1,6 @@
 #ifndef PROJECT1_AGENDA_H
 #define PROJECT1_AGENDA_H
 
-typedef struct s_contact{
-    char* name;
-    char* surname;
-} CONTACT;
-
 typedef struct s_date{
     int day;
     int month;
@@ -24,10 +19,15 @@ typedef struct s_appointment{
     char* purpose;
 } APPOINTMENT;
 
-typedef struct s_calendar{
+typedef struct s_contact{
+    char name[20];
+    char* surname;
+} CONTACT;
+
+typedef struct s_entry{
     CONTACT contact;
     APPOINTMENT* appointment;
-} CALENDAR;
+} ENTRY;
 
 void lower_case(char*);
 char* scanString();

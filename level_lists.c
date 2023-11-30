@@ -27,7 +27,6 @@ void insert_a_cell(t_d_list* list, int val, int cell_levels){
         for(int i = 0; i< cell_levels; i++) {
 
             new->level[i] = list->head[i];
-
             list->head[i] = new;
         }
 }
