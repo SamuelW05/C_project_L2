@@ -3,12 +3,17 @@
 #include "stdlib.h"
 #include "string.h"
 
-p_contact create_contact(char* name, int nb_levels){
-    printf("%d", 1);
+p_contact create_contact(char* name, int nb_levels) {
+    // Remove newline characters from the name
+    size_t len = strlen(name);
+    if (len > 0 && name[len - 1] == '\n') {
+        name[len - 1] = '\0';
+    }
 
     p_contact new_contact = (p_contact)malloc(sizeof(t_d_contact));
-    new_contact->level = (p_contact*) malloc(nb_levels*sizeof(p_contact));
-    strcpy(new_contact->information->contact.name,name);
+    new_contact->information = (ENTRY*)malloc(sizeof(ENTRY));
+    new_contact->level = (p_contact*)malloc(nb_levels * sizeof(p_contact));
+    strcpy(new_contact->information->contact.name, name);
     new_contact->nb_levels = nb_levels;
 
     for (int i = 0; i < nb_levels; i++) {
@@ -17,7 +22,6 @@ p_contact create_contact(char* name, int nb_levels){
 
     return new_contact;
 }
-
 
 int count_lines(char* file_path){
     int cpt = 0;
@@ -37,7 +41,6 @@ int count_lines(char* file_path){
     return ++cpt;
 }
 
-
 ht_d_contact_list create_empty_contact_list(int levels){
     ht_d_contact_list list;
     list.nb_max_levels = levels;
@@ -48,27 +51,23 @@ ht_d_contact_list create_empty_contact_list(int levels){
     return list;
 }
 
-void insert_a_contact(ht_d_contact_list* list, char* name, int contact_levels){
+void insert_a_contact(ht_d_contact_list* list, char* name, int contact_levels) {
     p_contact new = create_contact(name, contact_levels);
-    printf("1: %s",new->information->contact.name);
-    for(int i = 0; i<contact_levels; i++) {
-        new->level[i] = list->head[i];
-        list->head[i] = new;
-        printf("2: %s",list->head[i]->information->contact.name);
-        /*
-        if (is_empty_contact_level(*list, contact_levels)){
-            printf("a");
-            new->level[i] = list->head[i];
-            list->head[i] = new;
-            printf("b");
-            //list->tail[i] = new;
-            printf("c");
 
+    for (int i = 0; i < contact_levels; i++) {
+        // Insert at the tail
+        p_contact current = list->head[i];
+        if (current == NULL) {
+            // Empty list, insert at the head
+            list->head[i] = new;
+        } else {
+            // Traverse to the end of the list
+            while (current->level[i] != NULL) {
+                current = current->level[i];
+            }
+            // Insert at the tail
+            current->level[i] = new;
         }
-        else{
-            list->tail[i]->level[i] = new;
-            list->tail[i] = new;
-        }*/
     }
 }
 
@@ -115,13 +114,13 @@ void display_contacts_at_levels(ht_d_contact_list list, int level){
     }
 }
 
-/*
 void display_all_contact_levels(ht_d_contact_list list){
     for(int i = 0; i<list.nb_max_levels; i++){
         display_contacts_at_levels(list,i);
     }
 }
 
+/*
 void insert_a_contact_with_increasing_order(t_d_contact_list* list, int val, int contact_levels){
     if (is_empty_contact_level(*list,0) != 1){
         if(list->head[0]->value >= val){
@@ -151,10 +150,10 @@ void insert_a_contact_with_increasing_order(t_d_contact_list* list, int val, int
 */
 
 ht_d_contact_list create_contact_list(){ //changer le void apres
-    int nb_lines = count_lines("C:\\Users\\atrdi\\OneDrive\\CLION\\C_project_L2-main\\names_example.txt"); //"D:\\OneDrive\\CLION\\C_project_L2-main\\names_example.txt"
+    int nb_lines = count_lines("C:\\Users\\sweis\\CLionProjects\\c_proj\\names_example.txt");
     int cpt = 0;
     ht_d_contact_list contact_list = create_empty_contact_list(4);
-    FILE* file = fopen("C:\\Users\\atrdi\\OneDrive\\CLION\\C_project_L2-main\\names_example.txt", "r");
+    FILE* file = fopen("C:\\Users\\sweis\\CLionProjects\\c_proj\\names_example.txt", "r");
 
     char line[20];
     while (fgets(line, 20, file) != NULL) {
