@@ -166,4 +166,76 @@ ht_d_contact_list create_contact_list(){ //changer le void apres
 }
 
 
+void insert_with_good_order(ht_d_contact_list* list,char* name) {
+    if (is_empty_contact_level(*list, 0) == 1) {
+        insert_a_contact(list, name, 4);
+    }else {
+        int nmax = list->nb_max_levels - 1;// equal to 3 normally
+        p_contact new;//Will be used to create the new cell
+        p_contact temp = list->head[nmax];
 
+        p_contact prev = temp;
+        p_contact barrier;
+
+        while (((prev->information->contact.name[0] > name[0]) || (name[0] > temp->information->contact.name[0])) &&
+               (temp->level[nmax] != NULL)) {
+            prev = temp;
+            temp = temp->level[nmax];//4 in theory
+        }
+        if (prev != temp) {
+            if (name[0] > temp->information->contact.name[0]) {
+                //Insert at the end
+            }else if(name[0] < temp->information->contact.name[0]){
+                //insert between prev and temp
+            }
+            else {// the first letter of name and temp are the same so we go deep in one level
+                prev = temp;
+                barrier = temp->level[nmax]; //Barrier is the next letter to keep track a limit of iterations. Barrier can be null so the while loop will work like temp!= NULL
+                nmax--; //to get to the next level so LEVEL 2 so 3 levels of the cell
+                while (((prev->information->contact.name[1] > name[1]) || (name[1] > temp->information->contact.name[1]))&&(temp->level[nmax] != barrier)) {
+                    prev = temp;
+                    temp = temp->level[nmax];
+                }
+                if (prev != temp) {
+                    if (name[1] > temp->information->contact.name[1]) {
+                        //Insert at the end before barrier
+                    }else if(name[1] < temp->information->contact.name[1]){
+                        //insert between prev and temp
+                    }else {// the second letter of name and temp are the same
+                        prev = temp;
+                        barrier = temp->level[nmax]; //So the next letter to keep track a limit of iterations and barrier can be null so whe wile work like temp!= NULL
+                        nmax--; //to get to the next level so LEVEL 1
+                        while (((prev->information->contact.name[2] > name[2]) || (name[2] > temp->information->contact.name[2]))&&(temp->level[nmax] != barrier)) {
+                            prev = temp;
+                            temp = temp->level[nmax];
+                        }
+                        if (prev != temp) {
+                            if (name[2] > temp->information->contact.name[2]) {
+                                //Insert at the end before barrier
+                            }else if(name[2] < temp->information->contact.name[2]) {
+                                //insert between prev and temp
+                            }else{// the 3rd letter of name and them is the same
+                                prev = temp;
+                                barrier = temp->level[nmax]; //So the next letter to keep track a limit of iterations and barrier can be null so whe wile work like temp!= NULL
+                                nmax--; //to get to the next level so LEVEL 0
+                                while (((prev->information->contact.name[3] > name[3]) || (name[3] > temp->information->contact.name[3]))&&(temp->level[nmax] != barrier)) {
+                                    prev = temp;
+                                    temp = temp->level[nmax];
+                                }
+                                if (prev != temp) {
+                                    if (name[3] > temp->information->contact.name[3]) {
+                                        //Insert at the end before barrier
+                                    } else if (name[3] < temp->information->contact.name[3]) {
+                                        //insert between prev and temp
+                                    } else {// the 3rd letter of name and them is the same
+                                        //insert before of after but at level 0 we don't care when we are at the 4 letter
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
