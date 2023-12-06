@@ -150,92 +150,59 @@ void insert_a_contact_with_increasing_order(t_d_contact_list* list, int val, int
 */
 
 ht_d_contact_list create_contact_list(){ //changer le void apres
-    int nb_lines = count_lines("C:\\Users\\sweis\\CLionProjects\\c_proj\\names_example.txt");
+    int nb_lines = count_lines("C:\\Users\\ivang\\Documents\\Clases\\Efrei\\Semester_3\\C_language\\PROJECT1\\names_example.txt");
     int cpt = 0;
     ht_d_contact_list contact_list = create_empty_contact_list(4);
-    FILE* file = fopen("C:\\Users\\sweis\\CLionProjects\\c_proj\\names_example.txt", "r");
+    FILE* file = fopen("C:\\Users\\ivang\\Documents\\Clases\\Efrei\\Semester_3\\C_language\\PROJECT1\\names_example.txt", "r");
 
     char line[20];
     while (fgets(line, 20, file) != NULL) {
         char name[20] = "";
         strcpy(name, line);
-        insert_a_contact(&contact_list, name, 1);
+        insert_in_good_order_cell(&contact_list, name);
         cpt++;
     }
     return contact_list;
 }
 
 
-void insert_with_good_order(ht_d_contact_list* list,char* name) {
-    if (is_empty_contact_level(*list, 0) == 1) {
-        insert_a_contact(list, name, 4);
-    }else {
-        int nmax = list->nb_max_levels - 1;// equal to 3 normally
-        p_contact new;//Will be used to create the new cell
-        p_contact temp = list->head[nmax];
-
-        p_contact prev = temp;
-        p_contact barrier;
-
-        while (((prev->information->contact.name[0] > name[0]) || (name[0] > temp->information->contact.name[0])) &&
-               (temp->level[nmax] != NULL)) {
+void insert_in_good_order_cell(ht_d_contact_list* list,char* name) {
+    if (is_empty_contact_level(*list,0) == 1){
+        insert_a_contact(list,name,4);
+    } else{
+        p_contact temp= list->head[0];
+        p_contact prev= temp;
+        p_contact new =  create_contact(name,0);;
+        while (temp != NULL && (strcmp(name, temp->information->contact.name) > 0)) {
             prev = temp;
-            temp = temp->level[nmax];//4 in theory
+            temp = temp->level[0];
         }
-        if (prev != temp) {
-            if (name[0] > temp->information->contact.name[0]) {
-                //Insert at the end
-            }else if(name[0] < temp->information->contact.name[0]){
-                //insert between prev and temp
-            }
-            else {// the first letter of name and temp are the same so we go deep in one level
-                prev = temp;
-                barrier = temp->level[nmax]; //Barrier is the next letter to keep track a limit of iterations. Barrier can be null so the while loop will work like temp!= NULL
-                nmax--; //to get to the next level so LEVEL 2 so 3 levels of the cell
-                while (((prev->information->contact.name[1] > name[1]) || (name[1] > temp->information->contact.name[1]))&&(temp->level[nmax] != barrier)) {
-                    prev = temp;
-                    temp = temp->level[nmax];
-                }
-                if (prev != temp) {
-                    if (name[1] > temp->information->contact.name[1]) {
-                        //Insert at the end before barrier
-                    }else if(name[1] < temp->information->contact.name[1]){
-                        //insert between prev and temp
-                    }else {// the second letter of name and temp are the same
-                        prev = temp;
-                        barrier = temp->level[nmax]; //So the next letter to keep track a limit of iterations and barrier can be null so whe wile work like temp!= NULL
-                        nmax--; //to get to the next level so LEVEL 1
-                        while (((prev->information->contact.name[2] > name[2]) || (name[2] > temp->information->contact.name[2]))&&(temp->level[nmax] != barrier)) {
-                            prev = temp;
-                            temp = temp->level[nmax];
-                        }
-                        if (prev != temp) {
-                            if (name[2] > temp->information->contact.name[2]) {
-                                //Insert at the end before barrier
-                            }else if(name[2] < temp->information->contact.name[2]) {
-                                //insert between prev and temp
-                            }else{// the 3rd letter of name and them is the same
-                                prev = temp;
-                                barrier = temp->level[nmax]; //So the next letter to keep track a limit of iterations and barrier can be null so whe wile work like temp!= NULL
-                                nmax--; //to get to the next level so LEVEL 0
-                                while (((prev->information->contact.name[3] > name[3]) || (name[3] > temp->information->contact.name[3]))&&(temp->level[nmax] != barrier)) {
-                                    prev = temp;
-                                    temp = temp->level[nmax];
-                                }
-                                if (prev != temp) {
-                                    if (name[3] > temp->information->contact.name[3]) {
-                                        //Insert at the end before barrier
-                                    } else if (name[3] < temp->information->contact.name[3]) {
-                                        //insert between prev and temp
-                                    } else {// the 3rd letter of name and them is the same
-                                        //insert before of after but at level 0 we don't care when we are at the 4 letter
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+        if(prev!=temp){
+            prev->level[0] = new;
+            new->level[0] = temp;
+        } else {
+            new->level[0] = temp;
+            list->head[0] = new;
         }
+        update_list(list);
+    }
+}
+void update_list(ht_d_contact_list* list){
+    p_contact ogcell = list->head[0];
+    p_contact temp;
+    *list = create_empty_contact_list(4);
+    insert_a_contact(list,ogcell->information->contact.name,4);
+    while(ogcell->level[0]!= NULL){
+        if(ogcell->information->contact.name[0]!= ogcell->level[0]->information->contact.name[0]){
+            insert_a_contact(list,ogcell->level[0]->information->contact.name,4);
+        } else if(ogcell->information->contact.name[1]!= ogcell->level[0]->information->contact.name[1]){
+            insert_a_contact(list,ogcell->level[0]->information->contact.name,3);
+        }else if(ogcell->information->contact.name[2]!= ogcell->level[0]->information->contact.name[2]){
+            insert_a_contact(list,ogcell->level[0]->information->contact.name,2);
+        } else{
+            insert_a_contact(list,ogcell->level[0]->information->contact.name,1);
+        }
+
+        ogcell = ogcell->level[0];
     }
 }
