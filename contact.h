@@ -30,6 +30,7 @@ void insert_a_contact_with_increasing_order(ht_d_contact_list* list, int val, in
 int count_lines(char*);
 void display_contact_at_levels(ht_d_contact_list , int ,char*);
 ht_d_contact_list create_contact_list();
-
+void insert_in_good_order_cell(ht_d_contact_list* list,char* name);
+void update_list(ht_d_contact_list* list);
 
 #endif //PROJECT1_CONTACT_H
