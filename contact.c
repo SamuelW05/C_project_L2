@@ -14,6 +14,10 @@ p_contact create_contact(char* name, int nb_levels) {
     new_contact->information = (ENTRY*)malloc(sizeof(ENTRY));
     new_contact->level = (p_contact*)malloc(nb_levels * sizeof(p_contact));
     strcpy(new_contact->information->contact.name, name);
+
+    new_contact->information->appointment = (APPOINTMENT*) malloc(sizeof (APPOINTMENT)*10);
+    new_contact->information->nb_appointment = 0;
+
     new_contact->nb_levels = nb_levels;
 
     for (int i = 0; i < nb_levels; i++) {
@@ -22,7 +26,6 @@ p_contact create_contact(char* name, int nb_levels) {
 
     return new_contact;
 }
-
 int count_lines(char* file_path){
     int cpt = 0;
     char c;
