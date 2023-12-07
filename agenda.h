@@ -16,17 +16,18 @@ typedef struct s_appointment{
     DATE date;
     TIME time;
     TIME length;
-    char* purpose;
+    char purpose[50];
 } APPOINTMENT;
 
 typedef struct s_contact{
     char name[20];
-    char* surname;
+    char firstname[20];
 } CONTACT;
 
 typedef struct s_entry{
     CONTACT contact;
     APPOINTMENT* appointment;
+    int nb_appointments;
 } ENTRY;
 
 void lower_case(char*);

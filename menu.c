@@ -1,14 +1,15 @@
 #include "menu.h"
 #include <stdio.h>
+#include "string.h"
 
 void clearInputBuffer() {
     int c;
     while ((c = getchar()) != '\n' && c != EOF);
 }
 
-int menu() {
+void menu(ht_d_contact_list list) {
     int choice;
-    printf(" 1. Search for a contact \n"
+    printf("1. Search for a contact \n"
            "2. View a contact's appointments\n"
            "3. Create a contact \n"
            "4. Create an appointment for a contact \n"
@@ -17,37 +18,43 @@ int menu() {
            "7. Load an appointment file \n"
            "8. Provide the calculation times for inserting a new contact \n\n");
 
-    printf("Choose an action between 1 and 8: ");
+    printf("     -> Choose an action between 1 and 8 : ");
 
     if (scanf("%d", &choice) != 1) {
         // Handle the case where the input is not an integer
-        printf("Invalid input. Please enter a valid number.\n\n");
+        printf("Invalid input, please enter a valid number.\n\n\n");
         clearInputBuffer();  // Clear the input buffer
-        return -1;
+        menu(list);
+        return;
     }
 
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF) {
+        // Vider le flux d'entrée
+    }
     if (choice >= 1 && choice <= 8) {
-        return choice; // Exit the loop if a valid choice is entered
-    } else {
-        printf("Invalid choice. Please choose a number between 1 and 8.\n\n");
+        choose(choice, list);
+        menu(list);
+        return;
+    }
+    else {
+        printf("Invalid choice, please choose a number between 1 and 8.\n\n\n");
         clearInputBuffer();  // Clear the input buffer
-        return -1;
+        menu(list);
+        return;
     }
 }
 
-void choice(int a) {
+void choose(int a, ht_d_contact_list list) {
     switch (a) {
         case 1:
-            printf("Case 1\n");
+            search_for_a_contact(list);
             break;
         case 2:
-            printf("Case 2\n");
             break;
         case 3:
-            printf("Case 3\n");
             break;
         case 4:
-            printf("Case 4\n");
             break;
         case 5:
             printf("Case 5\n");
@@ -66,7 +73,26 @@ void choice(int a) {
     }
 }
 
-void main_function() {
-    int b = menu();
-    choice(b);
+void search_for_a_contact(ht_d_contact_list list){
+    printf("\n\nSearch for contact, enter the name letter by letter :\n");
+    char name[50] = "";
+    p_contact previous = list.head[0];
+    int i = 0;
+
+    while (previous != NULL){
+        if (i == 0)
+            printf("     -> Enter the 1st character of the name : ");
+        else
+            printf("     -> Current name :  [ %s... ]\n", name);
+        if (i == 1)
+            printf("     -> Enter the 2nd character of the name : ");
+        else if (i == 2)
+            printf("     -> Enter the 3rd character of the name : ");
+        else if (i > 2)
+            printf("     -> Enter the %dth character of the name : ", i+1);
+        strcat(name, scanString());
+        previous = search_contact(&list, name, previous);
+        i++;
+    }
 }
+

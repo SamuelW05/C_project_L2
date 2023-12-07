@@ -10,7 +10,7 @@ typedef struct s_d_contact{
 } t_d_contact;
 
 typedef t_d_contact* p_contact;
-p_contact create_contact(char* name, int nb_levels);
+p_contact create_contact(char* name, char* firstname, int nb_levels);
 
 
 typedef struct s_d_contact_list
@@ -24,13 +24,15 @@ ht_d_contact_list create_empty_contact_list(int);
 int is_empty_contact_level(ht_d_contact_list list,int level);
 void display_contacts_at_levels(ht_d_contact_list list, int level);
 void display_all_contact_levels(ht_d_contact_list list);
-void insert_a_contact(ht_d_contact_list* list, char* name, int contact_levels);
+void insert_a_contact(ht_d_contact_list* list, char* name, char* firstname, int contact_levels);
 void insert_a_contact_with_increasing_order(ht_d_contact_list* list, int val, int contact_levels);
 
 int count_lines(char*);
-void display_contact_at_levels(ht_d_contact_list , int ,char*);
+void display_contact_at_levels(ht_d_contact_list ,int ,char*);
 ht_d_contact_list create_contact_list();
-void insert_in_good_order_cell(ht_d_contact_list* list,char* name);
+p_contact search_contact(ht_d_contact_list* list, char* name, p_contact previous_cell);
+void choose_after_selection(int choice, p_contact contact);
+void insert_in_good_order_cell(ht_d_contact_list* list,char* name, char* firstname);
 void update_list(ht_d_contact_list* list);
 
 #endif //PROJECT1_CONTACT_H

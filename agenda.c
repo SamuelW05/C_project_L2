@@ -19,7 +19,6 @@ char* scanString() {
     char *input = (char *)malloc(capacity * sizeof(char));
 
     char c;
-    printf("Enter a string : ");
 
     while ((c = getchar()) != '\n') {
         input[size++] = c;
