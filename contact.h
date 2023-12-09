@@ -30,9 +30,11 @@ void insert_a_contact_with_increasing_order(ht_d_contact_list* list, int val, in
 int count_lines(char*);
 void display_contact_at_levels(ht_d_contact_list ,int ,char*);
 ht_d_contact_list create_contact_list();
-p_contact search_contact(ht_d_contact_list* list, char* name, p_contact previous_cell);
+p_contact search_contact(ht_d_contact_list* list, char* name, p_contact previous_cell,int a);
 void choose_after_selection(int choice, p_contact contact);
 void insert_in_good_order_cell(ht_d_contact_list* list,char* name, char* firstname);
 void update_list(ht_d_contact_list* list);
-
+void display_appointments(p_contact contact);
+void display_an_appointment(p_contact contact, int index);
+void add_appointment(p_contact contact);
 #endif //PROJECT1_CONTACT_H
