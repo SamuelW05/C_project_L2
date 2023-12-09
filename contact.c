@@ -133,8 +133,8 @@ void display_all_contact_levels(ht_d_contact_list list){
 
 ht_d_contact_list create_contact_list(){ //changer le void apres
     ht_d_contact_list contact_list = create_empty_contact_list(4);
-    FILE* file_names = fopen("D:\\OneDrive\\CLION\\C_project_L2-main\\names.txt", "r");
-    FILE* file_firstnames = fopen("D:\\OneDrive\\CLION\\C_project_L2-main\\firstnames.txt", "r");
+    FILE* file_names = fopen("C:\\Users\\ivang\\Documents\\Clases\\Efrei\\Semester_3\\C_language\\PROJECT1\\names.txt", "r");
+    FILE* file_firstnames = fopen("C:\\Users\\ivang\\Documents\\Clases\\Efrei\\Semester_3\\C_language\\PROJECT1\\firstnames.txt", "r");
 
     char names_line[20];
     char firstnames_line[20];
@@ -156,7 +156,7 @@ ht_d_contact_list create_contact_list(){ //changer le void apres
     return contact_list;
 }
 
-p_contact search_contact(ht_d_contact_list* list, char* name, p_contact previous_contact){
+p_contact search_contact(ht_d_contact_list* list, char* name, p_contact previous_contact, int a){
     int len = strlen(name) - 1; // 1
     int nb_level = 3-len; // 2
     if (nb_level < 0)
@@ -195,25 +195,34 @@ p_contact search_contact(ht_d_contact_list* list, char* name, p_contact previous
         printf("\n==========================================================================================================================================\n\n");
 
         if (cpt==1){
-            printf("\n\n\n     ===== CONTACT %s_%s FOUND ! ======\n\n", previous_contact->information->contact.name, previous_contact->information->contact.firstname);
-            printf("What do you want to do ? :\n"
-                   "   1. Display its information\n"
-                   "   2. Add an appointment\n"
-                   "   3. Return to menu\n\n");
-
-            int choice=0;
-            printf("Choose an action between 1 and 3 : ");
-            while ((choice < 1) || (choice > 3)) {
-                scanf("%d", &choice);
-                int c;
-                while ((c = getchar()) != '\n' && c != EOF){
-                    // Vider le flux d'entrée
-                }
-                if ((choice < 1) || (choice > 3))
-                    printf("\nPlease enter a valide number : ");
+            printf("\n\n\n     ===== CONTACT %s_%s FOUND ! ======\n\n", previous_contact->information->contact.name,
+                   previous_contact->information->contact.firstname);
+            switch (a) {
+                case 1:
+                    printf("Choose an action between 1 and 3 : ");
+                    printf("What do you want to do ? :\n"
+                           "   1. Display its information\n"
+                           "   2. Add an appointment\n"
+                           "   3. Display appointments\n\n");
+                    int choice = 0;
+                    while ((choice < 1) || (choice > 2)) {
+                        scanf("%d", &choice);
+                        int c;
+                        while ((c = getchar()) != '\n' && c != EOF) {
+                            // Vider le flux d'entrée
+                        }
+                        if ((choice < 1) || (choice > 2))
+                            printf("\nPlease enter a valid number : ");
+                    }
+                    choose_after_selection(choice, previous_contact);
+                    break;
+                case 2:
+                    display_appointments(previous_contact);
+                    break;
+                case 4:
+                    add_appointment(previous_contact);
+                    break;
             }
-
-            choose_after_selection(choice, previous_contact);
             return NULL;
         }
         return previous_contact;
@@ -223,11 +232,17 @@ p_contact search_contact(ht_d_contact_list* list, char* name, p_contact previous
 
 void choose_after_selection(int choice, p_contact contact){
     switch (choice){
-        case 1: // display information
+        case 1:
+            printf("Contact information :\n");
+            printf(" Firstname : %s\n",contact->information->contact.firstname);
+            printf(" Lastname  : %s\n",contact->information->contact.name);
+            printf(" Number of appointments : %d\n\n",contact->information->nb_appointments);
             break;
-        case 2: // add an appointment
+        case 2:
+            add_appointment(contact);
             break;
-        case 3: // return to menu
+        case 3:
+            display_appointments(contact);
             break;
     }
 }
@@ -272,4 +287,36 @@ void update_list(ht_d_contact_list* list){
 
         ogcell = ogcell->level[0];
     }
+}
+
+void display_an_appointment(p_contact contact, int index){
+    printf("----Appointment %d ----- \n",index+1);
+    printf("Purpose : %s ",contact->information->appointment[index].purpose);
+    printf("Date : %d/%d/%d\n",contact->information->appointment[index].date.day,contact->information->appointment[index].date.month,contact->information->appointment[index].date.year);
+    printf("Time of the appointment : %d:%d\n\n",contact->information->appointment[index].time.hour,contact->information->appointment[index].time.minute);
+}
+void display_appointments(p_contact contact){
+    printf("\n\n\n");
+    int nb_app = contact->information->nb_appointments;
+    if(nb_app== 0){
+        printf("There are no appointments for this contact\n\n");
+    } else{
+        for(int i = 0; i<nb_app;i++){
+            display_an_appointment(contact,i);
+        }
+    }
+}
+
+void add_appointment(p_contact contact){
+    printf("-----INSERT INFORMATION OF THE APPOINTMENT FOR %s %s ------- \n",contact->information->contact.name,contact->information->contact.firstname);
+    printf("Insert the reason of the appointment: ");
+    int nb_app = contact->information->nb_appointments;
+    fgets(contact->information->appointment[nb_app].purpose,50,stdin);
+
+    printf("Insert the date in this format (DAY/MONTH/YEAR) :");
+    scanf("%d/%d/%d",&contact->information->appointment[nb_app].date.day,&contact->information->appointment[nb_app].date.month,&contact->information->appointment[nb_app].date.year);
+    printf("Insert the time of the appointment in this format (HOUR:MINUTE) : ");
+    scanf("%d:%d",&contact->information->appointment[nb_app].time.hour,&contact->information->appointment[nb_app].time.minute);
+    contact->information->nb_appointments++;
+    printf("Appointment inserted!\n\n");
 }
