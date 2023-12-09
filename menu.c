@@ -58,7 +58,7 @@ void choose(int a, ht_d_contact_list list) {
             search_for_a_contact(list,2);
             break;
         case 3:
-            create_a_contact(&list);
+            insert_a_contact_menu(&list);
             break;
         case 4:
             search_for_a_contact(list,4);
@@ -103,7 +103,7 @@ void search_for_a_contact(ht_d_contact_list list,int a){
     }
 }
 
-void create_a_contact(ht_d_contact_list* list){
+void insert_a_contact_menu(ht_d_contact_list* list){
     printf("Enter the first name of the contact: ");
     char name[20];
     char lastname[20];
