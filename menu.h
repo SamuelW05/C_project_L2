@@ -7,5 +7,4 @@ void choose(int, ht_d_contact_list list);
 void main_function();
 void search_for_a_contact(ht_d_contact_list list,int a);
 void create_a_contact(ht_d_contact_list* list);
-void clearTerminal();
 #endif //C_PROJ_MENU_H
