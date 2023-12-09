@@ -113,3 +113,4 @@ void create_a_contact(ht_d_contact_list* list){
     insert_in_good_order_cell(list,lastname,name);
     printf("\nContact inserted in the list\n");
 }
+
