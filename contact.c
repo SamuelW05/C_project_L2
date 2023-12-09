@@ -314,12 +314,17 @@ void add_appointment(p_contact contact){
     int nb_app = contact->information->nb_appointments;
     fgets(contact->information->appointment[nb_app].purpose,50,stdin);
 
-    printf("Insert the date in this format (DAY/MONTH/YEAR) :");
+    printf("\nInsert the date in this format (DAY/MONTH/YEAR) :");
     scanf("%d/%d/%d",&contact->information->appointment[nb_app].date.day,&contact->information->appointment[nb_app].date.month,&contact->information->appointment[nb_app].date.year);
-    printf("Insert the time of the appointment in this format (HOUR:MINUTE) : ");
+    int c;
+    
+    printf("\nInsert the time of the appointment in this format (HOUR:MINUTE) : ");
     scanf("%d:%d",&contact->information->appointment[nb_app].time.hour,&contact->information->appointment[nb_app].time.minute);
-    printf("Insert the duration of the appointment in this format (HOUR:MINUTE): ");
+
+    
+    printf("\nInsert the duration of the appointment in this format (HOUR:MINUTE): ");
     scanf("%d:%d",&contact->information->appointment[nb_app].length.hour,&contact->information->appointment[nb_app].length.minute);
+    
     contact->information->nb_appointments++;
     printf("Appointment inserted!\n\n");
 }
