@@ -6,5 +6,6 @@ void menu(ht_d_contact_list list);
 void choose(int, ht_d_contact_list list);
 void main_function();
 void search_for_a_contact(ht_d_contact_list list,int a);
-void create_a_contact(ht_d_contact_list* list);
+void insert_a_contact_menu(ht_d_contact_list* list);
 #endif //C_PROJ_MENU_H
+
