@@ -81,7 +81,7 @@ void choose(int a, ht_d_contact_list list) {
         case 6:
             system("cls");
             display_all_contact_levels(list);
-            printf("\n\n");1
+            printf("\n\n");
         default:
             break;
     }
