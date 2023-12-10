@@ -3,23 +3,23 @@
 #include "string.h"
 #include "conio.h"
 #include <unistd.h>
+
 void clearInputBuffer() {
     int c;
     while ((c = getchar()) != '\n' && c != EOF);
 }
 
-void menu(ht_d_contact_list list) {
+int menu(ht_d_contact_list list) {
     int choice;
     printf("1. Search for a contact \n"
            "2. View a contact's appointments\n"
            "3. Create a contact \n"
            "4. Create an appointment for a contact \n"
-           "5. Delete an appointment\n"
-           "6. Save the file of all appointments\n"
-           "7. Load an appointment file \n"
-           "8. Provide the calculation times for inserting a new contact \n\n");
+           "5. Provide the calculation times for inserting a new contact \n"
+           "6. Display the level list\n"
+           "7. Quit\n\n");
 
-    printf("     -> Choose an action between 1 and 8 : ");
+    printf("     -> Choose an action between 1 and 7 : ");
 
     if (scanf("%d", &choice) != 1) {
         // Handle the case where the input is not an integer
@@ -27,24 +27,25 @@ void menu(ht_d_contact_list list) {
         clearInputBuffer();  // Clear the input buffer
 
         menu(list);
-        return;
+        return 1;
     }
 
     int c;
     while ((c = getchar()) != '\n' && c != EOF) {
         // Vider le flux d'entrée
     }
-    if (choice >= 1 && choice <= 8) {
+    if (choice >= 1 && choice <= 6) {
         choose(choice, list);
-        sleep(2);
         menu(list);
-        return;
+        return 1;
     }
+    else if (choice == 7)
+        return 0;
     else {
         printf("Invalid choice, please choose a number between 1 and 8.\n\n\n");
         clearInputBuffer();  // Clear the input buffer
         menu(list);
-        return;
+        return 1;
     }
 }
 
@@ -54,58 +55,40 @@ void choose(int a, ht_d_contact_list list) {
         case 1:
             system("cls");
             search_for_a_contact(list,1);
-            sleep(5);
             system("cls");
             break;
         case 2:
             system("cls");
             search_for_a_contact(list,2);
-            sleep(5);
             system("cls");
             break;
         case 3:
             system("cls");
             insert_a_contact_menu(&list);
-            sleep(5);
             system("cls");
             break;
         case 4:
             system("cls");
-            search_for_a_contact(list,4);
-            sleep(5);
+            search_for_a_contact(list,3);
             system("cls");
             break;
         case 5:
             system("cls");
-            printf("Case 5 not implemented because its not evaluate\n");
-            sleep(5);
+            compare_time();
+            sleep(4);
             system("cls");
             break;
         case 6:
             system("cls");
-            printf("Case 6 not implemented because its not evaluate\n");sleep(5);
-            system("cls");
-
-            break;
-        case 7:
-            system("cls");
-            printf("Case 7 not implemented because its not evaluate\n");
-            sleep(5);
-            system("cls");
-            break;
-        case 8:
-            system("cls");
-            compare_time();
-            sleep(5);
-            system("cls");
-            break;
+            display_all_contact_levels(list);
+            printf("\n\n");1
         default:
             break;
     }
 }
 
 void search_for_a_contact(ht_d_contact_list list,int a){
-    printf("\n\nSearch for contact, enter the name letter by letter :\n");
+    printf("Search for contact, enter the name letter by letter :\n");
     char name[50] = "";
     p_contact previous = list.head[0];
     int i = 0;
@@ -136,5 +119,6 @@ void insert_a_contact_menu(ht_d_contact_list* list){
     scanf("%s",lastname);
     insert_in_good_order_cell(list,lastname,name);
     printf("\nContact inserted in the list\n");
+    sleep(2);
 }
 

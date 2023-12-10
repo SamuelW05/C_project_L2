@@ -5,12 +5,16 @@
 #include "string.h"
 #include "menu.h"
 #include "stdlib.h"
+
 // BE CAREFULL YOU NEED TO CHANGE THE PATH OF firstnames.txt AND names.txt in CONTACT.C
 int main() {
-    printf("Loading...\n\n\n");
+    printf("Loading...");
     ht_d_contact_list list = create_contact_list();
-    while (1){
-        menu(list);
+    int running=1;
+
+    while (running){
+        system("cls");
+        running = menu(list);
     }
     return 0;
     /*

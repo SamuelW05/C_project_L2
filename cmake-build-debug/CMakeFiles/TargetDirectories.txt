@@ -1,0 +1,3 @@
+D:/OneDrive/CLION/C_project_L2-main/cmake-build-debug/CMakeFiles/PROJECT1.dir
+D:/OneDrive/CLION/C_project_L2-main/cmake-build-debug/CMakeFiles/edit_cache.dir
+D:/OneDrive/CLION/C_project_L2-main/cmake-build-debug/CMakeFiles/rebuild_cache.dir
