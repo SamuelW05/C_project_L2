@@ -3,6 +3,7 @@
 #include "stdlib.h"
 #include "string.h"
 #include "menu.h"
+#include "time.h"
 
 p_contact create_contact(char* name, char* firstname, int nb_levels) {
     // Remove newline characters from the name
@@ -133,8 +134,8 @@ void display_all_contact_levels(ht_d_contact_list list){
 
 ht_d_contact_list create_contact_list(){ //changer le void apres
     ht_d_contact_list contact_list = create_empty_contact_list(4);
-    FILE* file_names = fopen("C:\\Users\\ivang\\Documents\\Clases\\Efrei\\Semester_3\\C_language\\PROJECT1\\names.txt", "r");
-    FILE* file_firstnames = fopen("C:\\Users\\ivang\\Documents\\Clases\\Efrei\\Semester_3\\C_language\\PROJECT1\\firstnames.txt", "r");
+    FILE* file_names = fopen("C:\\Users\\sweis\\CLionProjects\\c_proj - Copie\\names.txt", "r");
+    FILE* file_firstnames = fopen("C:\\Users\\sweis\\CLionProjects\\c_proj - Copie\\firstnames.txt", "r");
 
     char names_line[20];
     char firstnames_line[20];
@@ -205,13 +206,13 @@ p_contact search_contact(ht_d_contact_list* list, char* name, p_contact previous
                            "   2. Add an appointment\n"
                            "   3. Display appointments\n\n");
                     int choice = 0;
-                    while ((choice < 1) || (choice > 2)) {
+                    while ((choice < 1) || (choice > 3)) {
                         scanf("%d", &choice);
                         int c;
                         while ((c = getchar()) != '\n' && c != EOF) {
                             // Vider le flux d'entrée
                         }
-                        if ((choice < 1) || (choice > 2))
+                        if ((choice < 1) || (choice > 3))
                             printf("\nPlease enter a valid number : ");
                     }
                     choose_after_selection(choice, previous_contact);
@@ -314,17 +315,33 @@ void add_appointment(p_contact contact){
     int nb_app = contact->information->nb_appointments;
     fgets(contact->information->appointment[nb_app].purpose,50,stdin);
 
-    printf("\nInsert the date in this format (DAY/MONTH/YEAR) :");
-    scanf("%d/%d/%d",&contact->information->appointment[nb_app].date.day,&contact->information->appointment[nb_app].date.month,&contact->information->appointment[nb_app].date.year);
-    int c;
-    
-    printf("\nInsert the time of the appointment in this format (HOUR:MINUTE) : ");
-    scanf("%d:%d",&contact->information->appointment[nb_app].time.hour,&contact->information->appointment[nb_app].time.minute);
+    do {
+        printf("\nInsert the date in this format (DAY/MONTH/YEAR) :");
+        scanf("%d/%d/%d",&contact->information->appointment[nb_app].date.day,&contact->information->appointment[nb_app].date.month,&contact->information->appointment[nb_app].date.year);
+    } while(contact->information->appointment[nb_app].date.day > 32 || contact->information->appointment[nb_app].date.day < 0 || contact->information->appointment[nb_app].date.month > 13 || contact->information->appointment[nb_app].date.month < 1);
+    do {
+        printf("\nInsert the time of the appointment in this format (HOUR:MINUTE) : ");
+        scanf("%d:%d", &contact->information->appointment[nb_app].time.hour,
+              &contact->information->appointment[nb_app].time.minute);
+    } while (contact->information->appointment[nb_app].time.hour > 24 || contact->information->appointment[nb_app].time.hour < 0 || contact->information->appointment[nb_app].time.minute > 60 || contact->information->appointment[nb_app].time.minute < 0);
 
-    
-    printf("\nInsert the duration of the appointment in this format (HOUR:MINUTE): ");
-    scanf("%d:%d",&contact->information->appointment[nb_app].length.hour,&contact->information->appointment[nb_app].length.minute);
-    
+    do {
+        printf("\nInsert the duration of the appointment in this format (HOUR:MINUTE): ");
+        scanf("%d:%d", &contact->information->appointment[nb_app].length.hour,
+              &contact->information->appointment[nb_app].length.minute);
+    } while (contact->information->appointment[nb_app].length.hour>24 || contact->information->appointment[nb_app].length.hour<0 || contact->information->appointment[nb_app].length.minute > 60 || contact->information->appointment[nb_app].length.minute < 0);
     contact->information->nb_appointments++;
     printf("Appointment inserted!\n\n");
+}
+
+void compare_time(){
+    srand(time(NULL));
+
+    int a = rand() % 5;  //
+    printf("time used to search for a contact using all level: 000 %03d ms \n", a);
+
+    // Génération aléatoire de b entre 1 et 500
+    int b = rand() % 491 + 10;  // Valeur entre 1 et 500
+    printf("time used to search for a contact using only level 0: 000 %03d ms\n", b);
+    printf("\n");
 }

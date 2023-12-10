@@ -4,6 +4,7 @@
 #include "contact.h"
 #include "string.h"
 #include "menu.h"
+#include "stdlib.h"
 
 int main() {
     printf("Loading...\n\n\n");

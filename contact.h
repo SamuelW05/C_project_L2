@@ -37,4 +37,5 @@ void update_list(ht_d_contact_list* list);
 void display_appointments(p_contact contact);
 void display_an_appointment(p_contact contact, int index);
 void add_appointment(p_contact contact);
+void compare_time();
 #endif //PROJECT1_CONTACT_H

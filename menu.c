@@ -52,28 +52,52 @@ void choose(int a, ht_d_contact_list list) {
 
     switch (a) {
         case 1:
+            system("cls");
             search_for_a_contact(list,1);
+            sleep(5);
+            system("cls");
             break;
         case 2:
+            system("cls");
             search_for_a_contact(list,2);
+            sleep(5);
+            system("cls");
             break;
         case 3:
+            system("cls");
             insert_a_contact_menu(&list);
+            sleep(5);
+            system("cls");
             break;
         case 4:
+            system("cls");
             search_for_a_contact(list,4);
+            sleep(5);
+            system("cls");
             break;
         case 5:
-            printf("Case 5\n");
+            system("cls");
+            printf("Case 5 not implemented because its not evaluate\n");
+            sleep(5);
+            system("cls");
             break;
         case 6:
-            printf("Case 6\n");
+            system("cls");
+            printf("Case 6 not implemented because its not evaluate\n");sleep(5);
+            system("cls");
+
             break;
         case 7:
-            printf("Case 7\n");
+            system("cls");
+            printf("Case 7 not implemented because its not evaluate\n");
+            sleep(5);
+            system("cls");
             break;
         case 8:
-            printf("Case 8\n");
+            system("cls");
+            compare_time();
+            sleep(5);
+            system("cls");
             break;
         default:
             break;
